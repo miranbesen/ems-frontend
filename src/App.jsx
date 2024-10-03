@@ -16,6 +16,7 @@ function App() {
          {/* http://localhost:3000/employees */}
           <Route path="/employees" element={<EmployeeList> </EmployeeList>}></Route>
           <Route path="/add-employee" element={<Employee> </Employee>}></Route>
+          <Route path="/edit-employee/:id" element={<Employee> </Employee>}></Route>
         </Routes>
         <FooterComponent></FooterComponent>
       </BrowserRouter>
