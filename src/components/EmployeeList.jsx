@@ -33,7 +33,6 @@ const EmployeeList = () => {
       <table className="table table-dark table-striped table-bordered">
         <thead>
           <tr>
-            <th>Employee Id</th>
             <th>Employee First Name</th>
             <th>Employee Last Name</th>
             <th>Employee Email </th>
@@ -43,7 +42,6 @@ const EmployeeList = () => {
         <tbody>
           {employees.map((employee) => (
             <tr key={employee.id}>
-              <td>{employee.id}</td>
               <td>{employee.firstName}</td>
               <td>{employee.lastName}</td>
               <td>{employee.email}</td>

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { createEmployee, getEmployee } from "../services/EmployeeService";
+import {
+  createEmployee,
+  getEmployee,
+  updateEmployee,
+} from "../services/EmployeeService";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EmployeeComponent = () => {
@@ -28,7 +32,7 @@ const EmployeeComponent = () => {
           console.error(error);
         });
     }
-  }, [id]); 
+  }, [id]);
 
   function saveEmployee(e) {
     e.preventDefault();
@@ -37,10 +41,25 @@ const EmployeeComponent = () => {
       const employee = { firstName, lastName, email };
       console.log(employee);
 
-      createEmployee(employee).then((response) => {
-        console.log(response.data);
-        navigator("/employees");
-      });
+      if (id) {
+        updateEmployee(id, employee)
+          .then((response) => {
+            console.log(response.data);
+            navigator("/employees");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        createEmployee(employee)
+          .then((response) => {
+            console.log(response.data);
+            navigator("/employees");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     }
   }
 
@@ -125,7 +144,7 @@ const EmployeeComponent = () => {
               <div className="form-group mb-2">
                 <label className="form-label">Email:</label>
                 <input
-                  type="password"
+                  type="email"
                   placeholder="Enter Employee Email"
                   name="email"
                   value={email}
