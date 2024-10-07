@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listEmployees } from "../services/EmployeeService";
+import { deleteEmployee, listEmployees } from "../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 
 const EmployeeList = () => {
@@ -7,6 +7,10 @@ const EmployeeList = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
+    getAllEmployees();
+  }, []);
+
+  function getAllEmployees() {
     listEmployees()
       .then((response) => {
         setEmployees(response.data);
@@ -14,14 +18,24 @@ const EmployeeList = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }
 
   function addNewEmployee() {
     navigator("/add-employee");
   }
 
-  function updateEmployee(id){
-    navigator(`/edit-employee/${id}`)
+  function updateEmployee(id) {
+    navigator(`/edit-employee/${id}`);
+  }
+
+  function removeEmployee(id) {
+    deleteEmployee(id)
+      .then(() => {
+        getAllEmployees();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
@@ -36,7 +50,7 @@ const EmployeeList = () => {
             <th>Employee First Name</th>
             <th>Employee Last Name</th>
             <th>Employee Email </th>
-            <th>Actions</th>
+            <th style={{ width: "180px" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +60,19 @@ const EmployeeList = () => {
               <td>{employee.lastName}</td>
               <td>{employee.email}</td>
               <td>
-                <button className="btn btn-info" onClick={()=>updateEmployee(employee.id)}>Update </button>
+                <button
+                  className="btn btn-info"
+                  style={{ marginRight: "10px" }}
+                  onClick={() => updateEmployee(employee.id)}
+                >
+                  Update{" "}
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => removeEmployee(employee.id)}
+                >
+                  Delete{" "}
+                </button>
               </td>
             </tr>
           ))}
