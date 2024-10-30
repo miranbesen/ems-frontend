@@ -20,7 +20,6 @@ const EmployeeComponent = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
-    console.log("ID:", id); // id'nin doğru gelip gelmediğini kontrol et
     if (id) {
       getEmployee(id)
         .then((response) => {
